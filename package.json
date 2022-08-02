@@ -1,0 +1,40 @@
+{
+  "name": "maya-red-airtable",
+  "version": "1.0.0",
+  "description": "Maya automation for airtable",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mayahq/mayadev/issues"
+  },
+  "homepage": "#readme",
+  "dependencies": {
+    "@mayahq/module-sdk": "^0.1.0"
+  },
+  "nodepath": "src/nodes",
+  "nodeRedModuleName": "maya-red-airtable",
+  "node-red": {
+    "nodes": {
+      "airtable-config": "src/nodes/airtableConfig/airtableConfig.node.js"
+    }
+  },
+  "mayaDetails": {
+    "name": "maya-red-airtable",
+    "version": "1.0.0",
+    "description": "Maya automation for airtable",
+    "author": "",
+    "type": "git",
+    "needsUserProfile": false,
+    "thumbnail": "",
+    "repository": {
+      "type": "git",
+      "url": "git+.git"
+    }
+  }
+}
