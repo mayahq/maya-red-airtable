@@ -1,8 +1,8 @@
 const {
     Node,
-    Schema
+    Schema,
+    fields
 } = require('@mayahq/module-sdk')
-
 class AirtableConfig extends Node {
     constructor(node, RED, opts) {
         super(node, RED, {
@@ -18,12 +18,13 @@ class AirtableConfig extends Node {
         isConfig: true,
         fields: {
             // Whatever custom fields the node needs.
+            baseId: new fields.Typed({type:"str",allowedTypes:["str","msg"]}),
+            tableName: new fields.Typed({type:"str",allowedTypes:["str","msg"]}),
+
         },
         redOpts: {
             credentials: {
-                someSecret: {
-                    type: String
-                }
+                apiKey: new fields.Typed({type:"str",allowedTypes:["str","msg"]}),
             }
         }
 

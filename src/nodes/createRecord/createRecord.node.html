@@ -1,0 +1,102 @@
+<script type='text/javascript'>
+    RED.nodes.registerType("create-record", {
+        category: "Maya Red Airtable",
+        color: "#8BBDD9",
+        defaults: {
+            name: {
+                value: ""
+            },
+            isProfileConfigNode: {
+                value: false
+            },
+            AirtableConfig: {
+                value: "",
+                type: "airtable-config"
+            },
+            newRecord: {
+                value: ""
+            },
+            payloadTypenewRecord: {
+                value: "json"
+            },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "fa-file-code-o.png",
+        label: function() {
+            return this.name || "Create Records"
+        },
+        paletteLabel: "Create Records",
+        exportable: true,
+        oneditprepare: function() {
+            if (this.payloadTypenewRecord === null) {
+                if (this.newRecord === "") {
+                    this.payloadTypenewRecord = "date"
+                } else {
+                    this.payloadTypenewRecord = "json"
+                }
+            } else if (this.payloadTypenewRecord === 'string' || this.payloadTypenewRecord === 'none') {
+                this.payloadTypenewRecord = "json"
+            }
+
+            $("#node-input-payloadTypenewRecord").val(this.payloadTypenewRecord)
+            $("#node-input-newRecord").typedInput({
+                default: "json",
+                typeField: $("#node-input-payloadTypenewRecord"),
+                types: ["json", "msg"]
+            })
+            $("#node-input-newRecord").typedInput("type", this.payloadTypenewRecord)
+
+        },
+        oneditsave: function() {},
+        oneditcancel: function() {},
+        oneditdelete: function() {},
+        oneditresize: function() {},
+        onpaletteadd: function() {},
+        onpaletteremove: function() {}
+    });
+</script>
+
+<script type="text/html" data-template-name="create-record">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
+    </div>
+    <div class="form-row">
+        <label for="node-input-AirtableConfig">AirtableConfig</label>
+        <input type="text" id="node-input-AirtableConfig"></input>
+    </div>
+    <div class="form-row">
+        <label for="node-input-newRecord">newRecord</label>
+        <input type="text" id="node-input-newRecord"></input>
+        <input type="hidden" id="node-input-payloadTypenewRecord">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="create-record">
+    <h2>Description</h2>
+    <p>Query opens tabs based on criteria like URL, muted status</p>
+
+    <h2>Config</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+
+
+    <h2>Outputs</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+</script>

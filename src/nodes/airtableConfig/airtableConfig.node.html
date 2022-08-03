@@ -1,0 +1,154 @@
+<script type='text/javascript'>
+    RED.nodes.registerType("airtable-config", {
+        category: "config",
+        color: "#8BBDD9",
+        defaults: {
+            name: {
+                value: ""
+            },
+            isProfileConfigNode: {
+                value: false
+            },
+            baseId: {
+                value: ""
+            },
+            payloadTypebaseId: {
+                value: "str"
+            },
+            tableName: {
+                value: ""
+            },
+            payloadTypetableName: {
+                value: "str"
+            },
+        },
+        credentials: {
+            apiKey: {
+                type: String
+            },
+            payloadTypeapiKey: {
+                value: "str"
+            },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "fa-file-code-o.png",
+        label: function() {
+            return this.name || "airtable-config"
+        },
+        paletteLabel: "airtable-config",
+        exportable: true,
+        oneditprepare: function() {
+            if (this.payloadTypebaseId === null) {
+                if (this.baseId === "") {
+                    this.payloadTypebaseId = "date"
+                } else {
+                    this.payloadTypebaseId = "str"
+                }
+            } else if (this.payloadTypebaseId === 'string' || this.payloadTypebaseId === 'none') {
+                this.payloadTypebaseId = "str"
+            }
+
+            $("#node-config-input-payloadTypebaseId").val(this.payloadTypebaseId)
+            $("#node-config-input-baseId").typedInput({
+                default: "str",
+                typeField: $("#node-config-input-payloadTypebaseId"),
+                types: ["str", "msg"]
+            })
+            $("#node-config-input-baseId").typedInput("type", this.payloadTypebaseId)
+
+            if (this.payloadTypetableName === null) {
+                if (this.tableName === "") {
+                    this.payloadTypetableName = "date"
+                } else {
+                    this.payloadTypetableName = "str"
+                }
+            } else if (this.payloadTypetableName === 'string' || this.payloadTypetableName === 'none') {
+                this.payloadTypetableName = "str"
+            }
+
+            $("#node-config-input-payloadTypetableName").val(this.payloadTypetableName)
+            $("#node-config-input-tableName").typedInput({
+                default: "str",
+                typeField: $("#node-config-input-payloadTypetableName"),
+                types: ["str", "msg"]
+            })
+            $("#node-config-input-tableName").typedInput("type", this.payloadTypetableName)
+
+            if (this.payloadTypeapiKey === null) {
+                if (this.apiKey === "") {
+                    this.payloadTypeapiKey = "date"
+                } else {
+                    this.payloadTypeapiKey = "str"
+                }
+            } else if (this.payloadTypeapiKey === 'string' || this.payloadTypeapiKey === 'none') {
+                this.payloadTypeapiKey = "str"
+            }
+
+            $("#node-config-input-payloadTypeapiKey").val(this.payloadTypeapiKey)
+            $("#node-config-input-apiKey").typedInput({
+                default: "str",
+                typeField: $("#node-config-input-payloadTypeapiKey"),
+                types: ["str", "msg"]
+            })
+            $("#node-config-input-apiKey").typedInput("type", this.payloadTypeapiKey)
+
+        },
+        oneditsave: function() {},
+        oneditcancel: function() {},
+        oneditdelete: function() {},
+        oneditresize: function() {},
+        onpaletteadd: function() {},
+        onpaletteremove: function() {}
+    });
+</script>
+
+<script type="text/html" data-template-name="airtable-config">
+    <div class="form-row">
+        <label for="node-config-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-baseId">baseId</label>
+        <input type="text" id="node-config-input-baseId"></input>
+        <input type="hidden" id="node-config-input-payloadTypebaseId">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-tableName">tableName</label>
+        <input type="text" id="node-config-input-tableName"></input>
+        <input type="hidden" id="node-config-input-payloadTypetableName">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-apiKey">apiKey</label>
+        <input type="text" id="node-config-input-apiKey"></input>
+        <input type="hidden" id="node-config-input-payloadTypeapiKey">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="airtable-config">
+    <h2>Description</h2>
+    <p>Query opens tabs based on criteria like URL, muted status</p>
+
+    <h2>Config</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+
+
+    <h2>Outputs</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+</script>

@@ -1,0 +1,134 @@
+<script type='text/javascript'>
+    RED.nodes.registerType("get-record", {
+        category: "Maya Red Airtable",
+        color: "#8BBDD9",
+        defaults: {
+            name: {
+                value: ""
+            },
+            isProfileConfigNode: {
+                value: false
+            },
+            AirtableConfig: {
+                value: "",
+                type: "airtable-config"
+            },
+            recordId: {
+                value: ""
+            },
+            payloadTyperecordId: {
+                value: "msg"
+            },
+            action: {
+                value: "getAllRecords"
+            },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "fa-file-code-o.png",
+        label: function() {
+            return this.name || "Get Records"
+        },
+        paletteLabel: "Get Records",
+        exportable: true,
+        oneditprepare: function() {
+            if (this.payloadTyperecordId === null) {
+                if (this.recordId === "") {
+                    this.payloadTyperecordId = "date"
+                } else {
+                    this.payloadTyperecordId = "msg"
+                }
+            } else if (this.payloadTyperecordId === 'string' || this.payloadTyperecordId === 'none') {
+                this.payloadTyperecordId = "msg"
+            }
+
+            $("#node-input-payloadTyperecordId").val(this.payloadTyperecordId)
+            $("#node-input-recordId").typedInput({
+                default: "msg",
+                typeField: $("#node-input-payloadTyperecordId"),
+                types: ["str", "msg"]
+            })
+            $("#node-input-recordId").typedInput("type", this.payloadTyperecordId)
+
+
+            const actionFieldSetNames = ["getAllRecords", "getRecordById"]
+            actionFieldSetNames.forEach((fieldSetName) => {
+                $("#node-input-action").append($("<option></option>").attr("value", fieldSetName).text(fieldSetName))
+            })
+
+            $("#node-input-action").val(this.action)
+            $("#node-input-action").on("change", (e) => {
+                const newFieldSet = e.target.value
+                actionFieldSetNames.forEach((fieldSetName) => {
+                    if (fieldSetName !== newFieldSet) {
+                        document.querySelector("div#fieldset-" + fieldSetName).style.display = 'none'
+                    }
+                })
+                document.querySelector("div#fieldset-" + newFieldSet).style.display = ''
+                $("#node-input-action").val(e.target.value)
+            })
+
+        },
+        oneditsave: function() {},
+        oneditcancel: function() {},
+        oneditdelete: function() {},
+        oneditresize: function() {},
+        onpaletteadd: function() {},
+        onpaletteremove: function() {}
+    });
+</script>
+
+<script type="text/html" data-template-name="get-record">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
+    </div>
+    <div class="form-row">
+        <label for="node-input-AirtableConfig">AirtableConfig</label>
+        <input type="text" id="node-input-AirtableConfig"></input>
+    </div>
+    <div class="form-row">
+        <label for="node-input-action">action</label>
+        <select type="text" id="node-input-action">
+        </select>
+    </div>
+    <div id="fieldset-getAllRecords" style="padding-left: 10px;">
+
+    </div>
+
+    <div id="fieldset-getRecordById" style="padding-left: 10px;">
+        <div class="form-row">
+            <label for="node-input-recordId">recordId</label>
+            <input type="text" id="node-input-recordId"></input>
+            <input type="hidden" id="node-input-payloadTyperecordId">
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-help-name="get-record">
+    <h2>Description</h2>
+    <p>Query opens tabs based on criteria like URL, muted status</p>
+
+    <h2>Config</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+
+
+    <h2>Outputs</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+</script>

@@ -1,0 +1,102 @@
+<script type='text/javascript'>
+    RED.nodes.registerType("update-record", {
+        category: "Maya Red Airtable",
+        color: "#8BBDD9",
+        defaults: {
+            name: {
+                value: ""
+            },
+            isProfileConfigNode: {
+                value: false
+            },
+            AirtableConfig: {
+                value: "",
+                type: "airtable-config"
+            },
+            updatedRecords: {
+                value: ""
+            },
+            payloadTypeupdatedRecords: {
+                value: "json"
+            },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "fa-file-code-o.png",
+        label: function() {
+            return this.name || "Update Records"
+        },
+        paletteLabel: "Update Records",
+        exportable: true,
+        oneditprepare: function() {
+            if (this.payloadTypeupdatedRecords === null) {
+                if (this.updatedRecords === "") {
+                    this.payloadTypeupdatedRecords = "date"
+                } else {
+                    this.payloadTypeupdatedRecords = "json"
+                }
+            } else if (this.payloadTypeupdatedRecords === 'string' || this.payloadTypeupdatedRecords === 'none') {
+                this.payloadTypeupdatedRecords = "json"
+            }
+
+            $("#node-input-payloadTypeupdatedRecords").val(this.payloadTypeupdatedRecords)
+            $("#node-input-updatedRecords").typedInput({
+                default: "json",
+                typeField: $("#node-input-payloadTypeupdatedRecords"),
+                types: ["json", "msg"]
+            })
+            $("#node-input-updatedRecords").typedInput("type", this.payloadTypeupdatedRecords)
+
+        },
+        oneditsave: function() {},
+        oneditcancel: function() {},
+        oneditdelete: function() {},
+        oneditresize: function() {},
+        onpaletteadd: function() {},
+        onpaletteremove: function() {}
+    });
+</script>
+
+<script type="text/html" data-template-name="update-record">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" style="width:70%;" placeholder="Name" />
+    </div>
+    <div class="form-row">
+        <label for="node-input-AirtableConfig">AirtableConfig</label>
+        <input type="text" id="node-input-AirtableConfig"></input>
+    </div>
+    <div class="form-row">
+        <label for="node-input-updatedRecords">updatedRecords</label>
+        <input type="text" id="node-input-updatedRecords"></input>
+        <input type="hidden" id="node-input-payloadTypeupdatedRecords">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="update-record">
+    <h2>Description</h2>
+    <p>Query opens tabs based on criteria like URL, muted status</p>
+
+    <h2>Config</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+
+
+    <h2>Outputs</h2>
+    <dl class="message-properties">
+
+        <dt>payload<span class="property-type">various</span></dt>
+        <dd>The configured payload of the message.</dd>
+
+        <dt class="optional">topic <span class="property-type">string</span></dt>
+        <dd>An optional property</dd>
+
+    </dl>
+</script>

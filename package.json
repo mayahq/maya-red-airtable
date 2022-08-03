@@ -14,14 +14,15 @@
     "url": "https://github.com/mayahq/mayadev/issues"
   },
   "homepage": "#readme",
-  "dependencies": {
-    "@mayahq/module-sdk": "^0.1.0"
-  },
   "nodepath": "src/nodes",
   "nodeRedModuleName": "maya-red-airtable",
   "node-red": {
     "nodes": {
-      "airtable-config": "src/nodes/airtableConfig/airtableConfig.node.js"
+      "airtable-config": "src/nodes/airtableConfig/airtableConfig.node.js",
+      "create-record": "src/nodes/createRecord/createRecord.node.js",
+      "get-record": "src/nodes/getRecord/getRecord.node.js",
+      "update-record": "src/nodes/updateRecord/updateRecord.node.js",
+      "delete-record": "src/nodes/deleteRecord/deleteRecord.node.js"
     }
   },
   "mayaDetails": {
@@ -36,5 +37,9 @@
       "type": "git",
       "url": "git+.git"
     }
+  },
+  "dependencies": {
+    "@mayahq/module-sdk": "^2.2.2",
+    "airtable": "^0.11.4"
   }
 }
