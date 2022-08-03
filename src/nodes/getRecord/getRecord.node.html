@@ -13,6 +13,30 @@
                 value: "",
                 type: "airtable-config"
             },
+            fields: {
+                value: ""
+            },
+            payloadTypefields: {
+                value: "str"
+            },
+            filterByFormula: {
+                value: ""
+            },
+            payloadTypefilterByFormula: {
+                value: "str"
+            },
+            maxRecords: {
+                value: "100"
+            },
+            payloadTypemaxRecords: {
+                value: "num"
+            },
+            sort: {
+                value: "{}"
+            },
+            payloadTypesort: {
+                value: "json"
+            },
             recordId: {
                 value: ""
             },
@@ -32,6 +56,78 @@
         paletteLabel: "Get Records",
         exportable: true,
         oneditprepare: function() {
+            if (this.payloadTypefields === null) {
+                if (this.fields === "") {
+                    this.payloadTypefields = "date"
+                } else {
+                    this.payloadTypefields = "str"
+                }
+            } else if (this.payloadTypefields === 'string' || this.payloadTypefields === 'none') {
+                this.payloadTypefields = "str"
+            }
+
+            $("#node-input-payloadTypefields").val(this.payloadTypefields)
+            $("#node-input-fields").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypefields"),
+                types: ["str", "msg"]
+            })
+            $("#node-input-fields").typedInput("type", this.payloadTypefields)
+
+            if (this.payloadTypefilterByFormula === null) {
+                if (this.filterByFormula === "") {
+                    this.payloadTypefilterByFormula = "date"
+                } else {
+                    this.payloadTypefilterByFormula = "str"
+                }
+            } else if (this.payloadTypefilterByFormula === 'string' || this.payloadTypefilterByFormula === 'none') {
+                this.payloadTypefilterByFormula = "str"
+            }
+
+            $("#node-input-payloadTypefilterByFormula").val(this.payloadTypefilterByFormula)
+            $("#node-input-filterByFormula").typedInput({
+                default: "str",
+                typeField: $("#node-input-payloadTypefilterByFormula"),
+                types: ["str", "msg"]
+            })
+            $("#node-input-filterByFormula").typedInput("type", this.payloadTypefilterByFormula)
+
+            if (this.payloadTypemaxRecords === null) {
+                if (this.maxRecords === "") {
+                    this.payloadTypemaxRecords = "date"
+                } else {
+                    this.payloadTypemaxRecords = "num"
+                }
+            } else if (this.payloadTypemaxRecords === 'string' || this.payloadTypemaxRecords === 'none') {
+                this.payloadTypemaxRecords = "num"
+            }
+
+            $("#node-input-payloadTypemaxRecords").val(this.payloadTypemaxRecords)
+            $("#node-input-maxRecords").typedInput({
+                default: "num",
+                typeField: $("#node-input-payloadTypemaxRecords"),
+                types: ["num", "msg"]
+            })
+            $("#node-input-maxRecords").typedInput("type", this.payloadTypemaxRecords)
+
+            if (this.payloadTypesort === null) {
+                if (this.sort === "") {
+                    this.payloadTypesort = "date"
+                } else {
+                    this.payloadTypesort = "json"
+                }
+            } else if (this.payloadTypesort === 'string' || this.payloadTypesort === 'none') {
+                this.payloadTypesort = "json"
+            }
+
+            $("#node-input-payloadTypesort").val(this.payloadTypesort)
+            $("#node-input-sort").typedInput({
+                default: "json",
+                typeField: $("#node-input-payloadTypesort"),
+                types: ["json", "msg"]
+            })
+            $("#node-input-sort").typedInput("type", this.payloadTypesort)
+
             if (this.payloadTyperecordId === null) {
                 if (this.recordId === "") {
                     this.payloadTyperecordId = "date"
@@ -69,12 +165,42 @@
             })
 
         },
-        oneditsave: function() {},
-        oneditcancel: function() {},
-        oneditdelete: function() {},
-        oneditresize: function() {},
-        onpaletteadd: function() {},
-        onpaletteremove: function() {}
+        oneditsave: function() {
+
+
+
+
+        },
+        oneditcancel: function() {
+
+
+
+
+        },
+        oneditdelete: function() {
+
+
+
+
+        },
+        oneditresize: function() {
+
+
+
+
+        },
+        onpaletteadd: function() {
+
+
+
+
+        },
+        onpaletteremove: function() {
+
+
+
+
+        }
     });
 </script>
 
@@ -93,7 +219,26 @@
         </select>
     </div>
     <div id="fieldset-getAllRecords" style="padding-left: 10px;">
-
+        <div class="form-row">
+            <label for="node-input-fields">fields</label>
+            <input type="text" id="node-input-fields"></input>
+            <input type="hidden" id="node-input-payloadTypefields">
+        </div>
+        <div class="form-row">
+            <label for="node-input-filterByFormula">filterByFormula</label>
+            <input type="text" id="node-input-filterByFormula"></input>
+            <input type="hidden" id="node-input-payloadTypefilterByFormula">
+        </div>
+        <div class="form-row">
+            <label for="node-input-maxRecords">maxRecords</label>
+            <input type="text" id="node-input-maxRecords"></input>
+            <input type="hidden" id="node-input-payloadTypemaxRecords">
+        </div>
+        <div class="form-row">
+            <label for="node-input-sort">sort</label>
+            <input type="text" id="node-input-sort"></input>
+            <input type="hidden" id="node-input-payloadTypesort">
+        </div>
     </div>
 
     <div id="fieldset-getRecordById" style="padding-left: 10px;">
