@@ -1,4 +1,5 @@
 const { Node, Schema, fields } = require("@mayahq/module-sdk");
+const Airtable = require("airtable");
 const AirtableConfig = require("../airtableConfig/airtableConfig.schema.js");
 class DeleteRecord extends Node {
   constructor(node, RED, opts) {
@@ -39,18 +40,24 @@ class DeleteRecord extends Node {
     // console.log(baseId, tableName, apiKey);
     // msg.records = [];
     const base = new Airtable({ apiKey: apiKey }).base(baseId);
-    try{
-        // convert comma seperated string vals.recordIds to array of strings
-        const recordIds = typeof vals.recordIds === string ? vals.recordIds.split(",") : vals.recordIds;
-        const response = await base(tableName).destroy(recordIds);
-        msg.records = response;
-        this.setStatus("SUCCESS", "Records deleted");
+    try {
+      // convert comma seperated string vals.recordIds to array of strings
+      const recordIds =
+        typeof vals.recordIds === "string"
+          ? vals.recordIds.split(",")
+          : vals.recordIds;
+      console.log(recordIds);
+      const response = await base(tableName).destroy(recordIds);
+      msg.records = response.map((record) => {
+        return { id: record.id, ...record.fields };
+      });
+      this.setStatus("SUCCESS", "Records deleted");
+    } catch (err) {
+      msg.__isError = true;
+      msg.__error = err;
+      this.setStatus("ERROR", err.message);
     }
-    catch{
-        msg.__isError = true;
-        msg.__error = err;
-        this.setStatus("ERROR", err.message);
-    }
+    return msg;
   }
 }
 
