@@ -1,7 +1,7 @@
 <script type='text/javascript'>
     RED.nodes.registerType("delete-record", {
         category: "Maya Red Airtable",
-        color: "#8BBDD9",
+        color: "#F82B60",
         defaults: {
             name: {
                 value: ""
@@ -22,7 +22,7 @@
         },
         inputs: 1,
         outputs: 1,
-        icon: "fa-file-code-o.png",
+        icon: "airtable.png",
         label: function() {
             return this.name || "Delete Records"
         },
@@ -43,7 +43,7 @@
             $("#node-input-recordIds").typedInput({
                 default: "str",
                 typeField: $("#node-input-payloadTyperecordIds"),
-                types: ["str", "msg"]
+                types: ["str", "msg", "json"]
             })
             $("#node-input-recordIds").typedInput("type", this.payloadTyperecordIds)
 

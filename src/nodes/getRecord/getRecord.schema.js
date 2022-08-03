@@ -1,7 +1,7 @@
 const { Node, Schema, fields } = require("@mayahq/module-sdk");
 const Airtable = require("airtable");
 const AirtableConfig = require("../airtableConfig/airtableConfig.schema.js");
-
+const { color } = require('../../constants.js')
 class GetRecord extends Node {
   constructor(node, RED, opts) {
     super(node, RED, {
@@ -15,6 +15,8 @@ class GetRecord extends Node {
     label: "Get Records",
     category: "Maya Red Airtable",
     isConfig: false,
+    color,
+    icon: 'airtable.png',
     fields: {
       // Whatever custom fields the node needs.
       AirtableConfig: new fields.ConfigNode({ type: AirtableConfig }),
@@ -23,7 +25,7 @@ class GetRecord extends Node {
           getAllRecords: {
             fields: new fields.Typed({
               type: "str",
-              allowedTypes: ["str", "msg"],
+              allowedTypes: ["str", "msg","json"],
               defaultVal: "",
             }),
             filterByFormula: new fields.Typed({
@@ -77,7 +79,10 @@ class GetRecord extends Node {
           typeof vals.action.childValues.fields === "string"
             ? vals.action.childValues.fields.split(",")
             : vals.action.childValues.fields;
-
+        // trim white spaces in fields array if any
+        fields.forEach((field, index) => {
+          fields[index] = field.trim();
+        });
         let tableQuery = {
           filterByFormula: vals.action.childValues.filterByFormula,
           maxRecords: vals.action.childValues.maxRecords,

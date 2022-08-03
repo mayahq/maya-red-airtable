@@ -1,6 +1,7 @@
 const { Node, Schema, fields } = require("@mayahq/module-sdk");
 const Airtable = require("airtable");
 const AirtableConfig = require("../airtableConfig/airtableConfig.schema.js");
+const { color } = require('../../constants.js')
 class DeleteRecord extends Node {
   constructor(node, RED, opts) {
     super(node, RED, {
@@ -14,12 +15,14 @@ class DeleteRecord extends Node {
     label: "Delete Records",
     category: "Maya Red Airtable",
     isConfig: false,
+    color,
+    icon: 'airtable.png',
     fields: {
       // Whatever custom fields the node needs.
       AirtableConfig: new fields.ConfigNode({ type: AirtableConfig }),
       recordIds: new fields.Typed({
         type: "str",
-        allowedTypes: ["str", "msg"],
+        allowedTypes: ["str", "msg","json"],
       }),
     },
   });
@@ -46,7 +49,12 @@ class DeleteRecord extends Node {
         typeof vals.recordIds === "string"
           ? vals.recordIds.split(",")
           : vals.recordIds;
-      console.log(recordIds);
+      // trim white spaces in recordIds array if any
+      recordIds.forEach((recordId, index) => {
+        recordIds[index] = recordId.trim();
+      });
+
+      // console.log(recordIds);
       const response = await base(tableName).destroy(recordIds);
       msg.records = response.map((record) => {
         return { id: record.id, ...record.fields };

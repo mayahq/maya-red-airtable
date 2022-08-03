@@ -1,7 +1,7 @@
 <script type='text/javascript'>
     RED.nodes.registerType("get-record", {
         category: "Maya Red Airtable",
-        color: "#8BBDD9",
+        color: "#F82B60",
         defaults: {
             name: {
                 value: ""
@@ -49,7 +49,7 @@
         },
         inputs: 1,
         outputs: 1,
-        icon: "fa-file-code-o.png",
+        icon: "airtable.png",
         label: function() {
             return this.name || "Get Records"
         },
@@ -70,7 +70,7 @@
             $("#node-input-fields").typedInput({
                 default: "str",
                 typeField: $("#node-input-payloadTypefields"),
-                types: ["str", "msg"]
+                types: ["str", "msg", "json"]
             })
             $("#node-input-fields").typedInput("type", this.payloadTypefields)
 

@@ -1,7 +1,7 @@
 const { Node, Schema, fields } = require("@mayahq/module-sdk");
 const Airtable = require("airtable");
 const AirtableConfig = require("../airtableConfig/airtableConfig.schema.js");
-
+const { color } = require('../../constants.js')
 class CreateRecord extends Node {
   constructor(node, RED, opts) {
     super(node, RED, {
@@ -15,6 +15,8 @@ class CreateRecord extends Node {
     label: "Create Records",
     category: "Maya Red Airtable",
     isConfig: false,
+    color,
+    icon: 'airtable.png',
     fields: {
       // Whatever custom fields the node needs.
       AirtableConfig: new fields.ConfigNode({ type: AirtableConfig }),
@@ -42,6 +44,11 @@ class CreateRecord extends Node {
     // msg.records = [];
     const base = new Airtable({ apiKey: apiKey }).base(baseId);
     try {
+      // if vals.newRecord is an object wrap it in an array
+      if (typeof vals.newRecord === "object") {
+        vals.newRecord = [vals.newRecord];
+      }
+
       const response = await base(tableName).create(vals.newRecord);
       msg.records = response.map((record) => {
         return { id: record.id, ...record.fields };
