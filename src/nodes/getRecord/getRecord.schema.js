@@ -25,29 +25,29 @@ class GetRecord extends Node {
           getAllRecords: {
             fields: new fields.Typed({
               type: "str",
-              allowedTypes: ["str", "msg","json"],
+              allowedTypes: ["str", "msg","json","flow","global"],
               defaultVal: "",
             }),
             filterByFormula: new fields.Typed({
               type: "str",
-              allowedTypes: ["str", "msg"],
+              allowedTypes: ["str", "msg","flow","global"],
               defaultVal: "",
             }),
             maxRecords: new fields.Typed({
               type: "num",
-              allowedTypes: ["num", "msg"],
+              allowedTypes: ["num", "msg","flow","global"],
               defaultVal: 100,
             }),
             sort: new fields.Typed({
               type: "json",
-              allowedTypes: ["json", "msg"],
+              allowedTypes: ["json", "msg","flow","global"],
               defaultVal: "{}",
             }),
           },
           getRecordById: {
             recordId: new fields.Typed({
               type: "msg",
-              allowedTypes: ["str", "msg"],
+              allowedTypes: ["str", "msg","flow","global"],
             }),
           },
         },

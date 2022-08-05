@@ -22,7 +22,7 @@ class DeleteRecord extends Node {
       AirtableConfig: new fields.ConfigNode({ type: AirtableConfig }),
       recordIds: new fields.Typed({
         type: "str",
-        allowedTypes: ["str", "msg","json"],
+        allowedTypes: ["str", "msg","json","flow","global"],
       }),
     },
   });

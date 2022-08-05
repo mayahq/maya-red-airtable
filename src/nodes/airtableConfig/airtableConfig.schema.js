@@ -18,8 +18,8 @@ class AirtableConfig extends Node {
         isConfig: true,
         fields: {
             // Whatever custom fields the node needs.
-            baseId: new fields.Typed({type:"str",allowedTypes:["str","msg"]}),
-            tableName: new fields.Typed({type:"str",allowedTypes:["str","msg"]}),
+            baseId: new fields.Typed({type:"str",allowedTypes:["str","msg","flow","global"]}),
+            tableName: new fields.Typed({type:"str",allowedTypes:["str","msg","flow","global"]}),
 
         },
         redOpts: {

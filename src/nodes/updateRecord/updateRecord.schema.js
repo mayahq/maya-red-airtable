@@ -22,7 +22,7 @@ class UpdateRecord extends Node {
       AirtableConfig: new fields.ConfigNode({ type: AirtableConfig }),
       updatedRecords: new fields.Typed({
         type: "json",
-        allowedTypes: ["json", "msg"],
+        allowedTypes: ["json", "msg","flow","global"],
       }),
     },
   });
