@@ -24,7 +24,7 @@ class AirtableConfig extends Node {
         },
         redOpts: {
             credentials: {
-                apiKey: new fields.Typed({type:"str",allowedTypes:["str","msg"]}),
+                apiKey: new fields.Credential({ type: "str", password: true }),
             }
         }
 

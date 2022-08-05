@@ -50,7 +50,7 @@ class CreateRecord extends Node {
       }
 
       const response = await base(tableName).create(vals.newRecord);
-      msg.records = response.map((record) => {
+      msg.payload = response.map((record) => {
         return { id: record.id, ...record.fields };
       });
       this.setStatus("SUCCESS", "Record created");

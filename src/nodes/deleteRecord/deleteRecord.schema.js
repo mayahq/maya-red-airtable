@@ -56,7 +56,7 @@ class DeleteRecord extends Node {
 
       // console.log(recordIds);
       const response = await base(tableName).destroy(recordIds);
-      msg.records = response.map((record) => {
+      msg.payload = response.map((record) => {
         return { id: record.id, ...record.fields };
       });
       this.setStatus("SUCCESS", "Records deleted");
