@@ -70,7 +70,7 @@
             $("#node-input-fields").typedInput({
                 default: "str",
                 typeField: $("#node-input-payloadTypefields"),
-                types: ["str", "msg", "json"]
+                types: ["str", "msg", "json", "flow", "global"]
             })
             $("#node-input-fields").typedInput("type", this.payloadTypefields)
 
@@ -88,7 +88,7 @@
             $("#node-input-filterByFormula").typedInput({
                 default: "str",
                 typeField: $("#node-input-payloadTypefilterByFormula"),
-                types: ["str", "msg"]
+                types: ["str", "msg", "flow", "global"]
             })
             $("#node-input-filterByFormula").typedInput("type", this.payloadTypefilterByFormula)
 
@@ -106,7 +106,7 @@
             $("#node-input-maxRecords").typedInput({
                 default: "num",
                 typeField: $("#node-input-payloadTypemaxRecords"),
-                types: ["num", "msg"]
+                types: ["num", "msg", "flow", "global"]
             })
             $("#node-input-maxRecords").typedInput("type", this.payloadTypemaxRecords)
 
@@ -124,7 +124,7 @@
             $("#node-input-sort").typedInput({
                 default: "json",
                 typeField: $("#node-input-payloadTypesort"),
-                types: ["json", "msg"]
+                types: ["json", "msg", "flow", "global"]
             })
             $("#node-input-sort").typedInput("type", this.payloadTypesort)
 
@@ -142,7 +142,7 @@
             $("#node-input-recordId").typedInput({
                 default: "msg",
                 typeField: $("#node-input-payloadTyperecordId"),
-                types: ["str", "msg"]
+                types: ["str", "msg", "flow", "global"]
             })
             $("#node-input-recordId").typedInput("type", this.payloadTyperecordId)
 

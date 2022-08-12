@@ -26,9 +26,6 @@
             apiKey: {
                 type: String
             },
-            payloadTypeapiKey: {
-                value: "str"
-            },
         },
         inputs: 1,
         outputs: 1,
@@ -53,7 +50,7 @@
             $("#node-config-input-baseId").typedInput({
                 default: "str",
                 typeField: $("#node-config-input-payloadTypebaseId"),
-                types: ["str", "msg"]
+                types: ["str", "msg", "flow", "global"]
             })
             $("#node-config-input-baseId").typedInput("type", this.payloadTypebaseId)
 
@@ -71,27 +68,9 @@
             $("#node-config-input-tableName").typedInput({
                 default: "str",
                 typeField: $("#node-config-input-payloadTypetableName"),
-                types: ["str", "msg"]
+                types: ["str", "msg", "flow", "global"]
             })
             $("#node-config-input-tableName").typedInput("type", this.payloadTypetableName)
-
-            if (this.payloadTypeapiKey === null) {
-                if (this.apiKey === "") {
-                    this.payloadTypeapiKey = "date"
-                } else {
-                    this.payloadTypeapiKey = "str"
-                }
-            } else if (this.payloadTypeapiKey === 'string' || this.payloadTypeapiKey === 'none') {
-                this.payloadTypeapiKey = "str"
-            }
-
-            $("#node-config-input-payloadTypeapiKey").val(this.payloadTypeapiKey)
-            $("#node-config-input-apiKey").typedInput({
-                default: "str",
-                typeField: $("#node-config-input-payloadTypeapiKey"),
-                types: ["str", "msg"]
-            })
-            $("#node-config-input-apiKey").typedInput("type", this.payloadTypeapiKey)
 
         },
         oneditsave: function() {},
@@ -120,8 +99,7 @@
     </div>
     <div class="form-row">
         <label for="node-config-input-apiKey">apiKey</label>
-        <input type="text" id="node-config-input-apiKey"></input>
-        <input type="hidden" id="node-config-input-payloadTypeapiKey">
+        <input type="password" id="node-config-input-apiKey"></input>
     </div>
 </script>
 
