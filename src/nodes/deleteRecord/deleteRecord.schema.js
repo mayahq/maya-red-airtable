@@ -1,7 +1,8 @@
 const { Node, Schema, fields } = require("@mayahq/module-sdk");
 const Airtable = require("airtable");
 const AirtableConfig = require("../airtableConfig/airtableConfig.schema.js");
-const { color } = require('../../constants.js')
+const { color } = require('../../constants.js');
+const { transformRecord } = require("../../utils.js");
 class DeleteRecord extends Node {
   constructor(node, RED, opts) {
     super(node, RED, {
@@ -56,9 +57,7 @@ class DeleteRecord extends Node {
 
       // console.log(recordIds);
       const response = await base(tableName).destroy(recordIds);
-      msg.payload = response.map((record) => {
-        return { id: record.id, ...record.fields };
-      });
+      msg.table = response.map((record) => transformRecord(record));
       this.setStatus("SUCCESS", "Records deleted");
     } catch (err) {
       msg.__isError = true;

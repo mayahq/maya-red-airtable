@@ -1,7 +1,8 @@
 const { Node, Schema, fields } = require("@mayahq/module-sdk");
 const Airtable = require("airtable");
 const AirtableConfig = require("../airtableConfig/airtableConfig.schema.js");
-const { color } = require('../../constants.js')
+const { color } = require("../../constants.js");
+const { transformRecord, inverseTransformRecord } = require("../../utils.js");
 class UpdateRecord extends Node {
   constructor(node, RED, opts) {
     super(node, RED, {
@@ -16,13 +17,13 @@ class UpdateRecord extends Node {
     category: "Maya Red Airtable",
     isConfig: false,
     color,
-    icon: 'airtable.png',
+    icon: "airtable.png",
     fields: {
       // Whatever custom fields the node needs.
       AirtableConfig: new fields.ConfigNode({ type: AirtableConfig }),
       updatedRecords: new fields.Typed({
         type: "json",
-        allowedTypes: ["json", "msg","flow","global"],
+        allowedTypes: ["json", "msg", "flow", "global"],
       }),
     },
   });
@@ -45,15 +46,20 @@ class UpdateRecord extends Node {
     const base = new Airtable({ apiKey: apiKey }).base(baseId);
     try {
       // if vals.updatedRecords is an object wrap it in an array
-      if (typeof vals.updatedRecords === "object") {
+      console.log(Array.isArray(vals.updatedRecords));
+      if (Array.isArray(vals.updatedRecords)===false) {
+        // vals.updatedRecords = [vals.updatedRecords];
         vals.updatedRecords = [vals.updatedRecords];
+
       }
+      console.log(vals.updatedRecords,'is a type of ',typeof vals.updatedRecords);
+      vals.updatedRecords = vals.updatedRecords.map((record) =>
+        inverseTransformRecord(record, "update")
+      );
       const response = await base(tableName).update(vals.updatedRecords);
-      msg.payload = response.map((record) => {
-        return { id: record.id, ...record.fields };
-      });
+      msg.table = response.map((record) => transformRecord(record));
       this.setStatus("SUCCESS", "Records updated");
-    } catch {
+    } catch(err) {
       msg.__isError = true;
       msg.__error = err;
 

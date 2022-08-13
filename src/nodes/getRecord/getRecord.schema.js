@@ -2,6 +2,7 @@ const { Node, Schema, fields } = require("@mayahq/module-sdk");
 const Airtable = require("airtable");
 const AirtableConfig = require("../airtableConfig/airtableConfig.schema.js");
 const { color } = require('../../constants.js')
+const {transformRecord} = require("../../utils.js");
 class GetRecord extends Node {
   constructor(node, RED, opts) {
     super(node, RED, {
@@ -68,7 +69,7 @@ class GetRecord extends Node {
     const { AirtableConfig } = this.credentials;
     const apiKey = AirtableConfig.apiKey;
     // console.log(baseId, tableName, apiKey);
-    msg.payload = [];
+    //msg.payload = [];
     const base = new Airtable({ apiKey: apiKey }).base(baseId);
     if (vals.action.selected === "getAllRecords") {
       this.setStatus("PROGRESS", "Fetching records...");
@@ -97,9 +98,7 @@ class GetRecord extends Node {
           tableQuery.fields = fields;
         }
         const response = await base(tableName).select(tableQuery).all();
-        msg.payload = response.map((record) => {
-          return { id: record.id, ...record.fields };
-        });
+        msg.table = response.map((record)=>transformRecord(record));
         this.setStatus("SUCCESS", "Records fetched");
       } catch (err) {
         msg.__isError = true;
@@ -113,7 +112,7 @@ class GetRecord extends Node {
         const response = await base(tableName).find(
           vals.action.childValues.recordId
         );
-        msg.payload = [{ id: response.id, ...response.fields }];
+        msg.table = [transformRecord(response)];
         this.setStatus("SUCCESS", "Record fetched");
       } catch (err) {
         msg.__isError = true;

@@ -1,7 +1,8 @@
 const { Node, Schema, fields } = require("@mayahq/module-sdk");
 const Airtable = require("airtable");
 const AirtableConfig = require("../airtableConfig/airtableConfig.schema.js");
-const { color } = require('../../constants.js')
+const { color } = require("../../constants.js");
+const { transformRecord, inverseTransformRecord } = require("../../utils.js");
 class CreateRecord extends Node {
   constructor(node, RED, opts) {
     super(node, RED, {
@@ -16,13 +17,13 @@ class CreateRecord extends Node {
     category: "Maya Red Airtable",
     isConfig: false,
     color,
-    icon: 'airtable.png',
+    icon: "airtable.png",
     fields: {
       // Whatever custom fields the node needs.
       AirtableConfig: new fields.ConfigNode({ type: AirtableConfig }),
       newRecord: new fields.Typed({
         type: "json",
-        allowedTypes: ["json", "msg","flow","global"],
+        allowedTypes: ["json", "msg", "flow", "global"],
       }),
     },
   });
@@ -44,15 +45,19 @@ class CreateRecord extends Node {
     // msg.records = [];
     const base = new Airtable({ apiKey: apiKey }).base(baseId);
     try {
+      console.log(typeof vals.newRecord);
       // if vals.newRecord is an object wrap it in an array
-      if (typeof vals.newRecord === "object") {
+      if (Array.isArray(vals.newRecord)===false) {
+        // vals.newRecord = [vals.newRecord];
         vals.newRecord = [vals.newRecord];
-      }
 
+      }
+      vals.newRecord = vals.newRecord.map((record) =>
+        inverseTransformRecord(record, "create")
+      );
+      console.log(vals.newRecord);
       const response = await base(tableName).create(vals.newRecord);
-      msg.payload = response.map((record) => {
-        return { id: record.id, ...record.fields };
-      });
+      msg.table = await response.map((record) => transformRecord(record));
       this.setStatus("SUCCESS", "Record created");
     } catch (err) {
       msg.__isError = true;
