@@ -121,6 +121,15 @@ class GetRecord extends Node {
         this.setStatus("ERROR", err.message);
       }
     }
+
+    try {
+      msg.payload = msg.table.map(row => {
+        const plainRow = {}
+        Object.keys(row.fields).forEach(key => plainRow[key] = row.fields[key].value)
+        return plainRow 
+      })
+    } catch (e) {}
+
     return msg;
   }
 }
